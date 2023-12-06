@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Football Matches</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        #matches {
+            margin-top: 20px;
+        }
+        .match {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<!--     <div class="left">
+        Left
+    </div> -->
+    <div class="container">
+
+        <form id="filterForm" action="/matches" method="POST">
+            <div>
+                <label for="season">Season:</label><br>
+                <select id="season" name="season">
+                    <option value="2022-2023">2022-2023</option>
+                    <option value="2021-2022">2021-2022</option>
+                    <option value="2020-2021">2020-2021</option>
+                    <option value="2019-2020">2019-2020</option>
+                    <option value="2018-2019">2018-2019</option>
+                </select><br>
+            </div>
+
+            <div>
+                <label for="league">League:</label><br>
+                <select id="league" name="league">
+                    <option value="england/premier-league">england/premier-league</option>
+                    <option value="spain/laliga">spain/laliga</option>
+                    <option value="germany/bundesliga">germany/bundesliga</option>
+                    <option value="italy/serie-a">italy/serie-a</option>
+                    <option value="france/ligue-1">france/ligue-1</option>
+                </select><br>
+            </div>
+
+            <div>
+                <label for="round">Team:</label><br>
+                <input type="text" id="team" name="team"><br>
+            </div>
+
+            <input type="submit" value="Filter">
+        </form>
+    
+        <div id="matches">
+            {% for match in matches %}
+                <div class="match-container">
+                    <h2 class="match">
+                        <a href="https://www.flashscore.com/match/{{ match.id }}/#/match-summary/match-summary">
+                            {{ match.homeside }} {{ match.homegoals }} - {{ match.awaygoals }} {{ match.awayside }}
+                        </a></h2>
+                    <!--<p class="date">{{ match.date }}</p>
+                    <p class="result">{{ match.result }}</p>-->
+                </div>
+            {% else %}
+                <h2>No matches found.</h2>
+            {% endfor %}
+        </div>
+
+    </div>
+
+<!--     <div class="right">
+        Right
+    </div>
+ -->
+
+    <script>
+        function filterMatches() {
+            var input = document.getElementById('search');
+            var filter = input.value.toUpperCase();
+            var matches = document.getElementById('matches');
+            var match = matches.getElementsByClassName('match');
+
+            for (var i = 0; i < match.length; i++) {
+                var txtValue = match[i].textContent || match[i].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    match[i].style.display = "";
+                } else {
+                    match[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>
